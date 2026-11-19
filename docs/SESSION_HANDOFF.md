@@ -6,12 +6,12 @@ Overwrite the "Current state" block at the end of every session. Keep history sh
 - **Phase:** 1 (in progress — T1.7b visual spec implemented; Ubuntu baselines pending)
 - **Last completed task:** T1.7a Root title template with tagline suffix, dark color scheme, and theme-color metadata. T1.7b defines five responsive screenshot cases.
 - **Branch:** `main` — working tree has uncommitted T1.1–T1.7b changes
-- **Last `npm run verify` result:** **not rerun after cleanup**. `npm run format:check` exits 1 on six existing T1.3 UI files (`Badge.tsx`, `Button.tsx`, `Container.tsx`, `layout.test.tsx`, `Link.tsx`, `SectionHeader.tsx`). Removed `.playwright-mcp` local captures (8 review PNGs, 2 console logs, 2 page capture YAML files). Lint and typecheck previously passed. The visual spec lists all five cases; screenshot baselines must be generated on Ubuntu CI, not this Windows machine.
+- **Last `npm run verify` result:** **exit 0** — formatting, lint, typecheck, 30/30 unit tests, and production build passed after cleanup. Removed `.playwright-mcp` local captures (8 review PNGs, 2 console logs, 2 page capture YAML files). The visual spec lists all five cases; screenshot baselines must be generated on Ubuntu CI, not this Windows machine.
 - **Last `npm run test:e2e` result:** Not completed; Playwright exited 1 because port 3100 is already occupied. Chromium checks were run on port 3187; mobile dialog keyboard behavior passed and 375/1440 screenshots were reviewed.
 - **Preview URL:** https://nexora-tau-gray.vercel.app/ (stale; reflects Phase 0)
 
 ## Next task
-T1.7b follow-up — obtain the five Playwright screenshot baselines from an Ubuntu CI run and commit them, then run `npm run test:visual`. Resolve the six formatting warnings before the Phase 1 verify gate.
+T1.7b follow-up — after the user pushes, obtain the five Playwright screenshot baselines from Ubuntu CI and commit them, then run `npm run test:visual`. Human review and approval of the gallery screenshots at 375 and 1440, the remaining Phase 1 exit checks, and the `phase-1-approved` tag are still required before Phase 2.
 
 ## Known issues
 - **CI has never run.** The first push/PR is the real test of `.github/workflows/ci.yml`. Expect the first failure, if any, to be environment-specific (e.g. Chrome sandbox flags or the `node-version-file` manifest lookup), not logic.
@@ -30,7 +30,7 @@ Business inputs only: email/CRM provider, analytics at launch, domain + trademar
 ## History
 | Date | Task | Result |
 |---|---|---|
-| 2026-11-19 | Repository cleanup | Removed `.playwright-mcp` local review captures: 8 PNGs, 2 console logs, and 2 page capture YAML files. Verified no remaining console logs or image artifacts in the repository scan. `npm run format:check` still exits 1 on six T1.3 UI files. No push performed. |
+| 2026-11-19 | Repository cleanup and formatting | Removed `.playwright-mcp` local review captures: 8 PNGs, 2 console logs, and 2 page capture YAML files. Verified no remaining console logs or image artifacts in the repository scan. Formatted the six T1.3 UI files; `npm run verify` exit 0 (30/30 unit tests and production build included). No push performed. |
 | 2026-11-19 | T1.7b Visual spec | Added five `@visual` full-page gallery-and-shell cases at 375/768/1280/1440/1920px with animations disabled. Playwright lists all five; lint/typecheck pass. Baseline screenshots were not generated locally because `docs/TESTING.md` requires Ubuntu CI. Full verify remains blocked by existing formatting warnings. |
 | 2026-11-19 | T1.7a Global metadata | Added tagline title template, dark viewport color-scheme and page theme-color via Next.js 16 `viewport` export. Browser confirmed homepage and gallery titles plus viewport metadata. Lint/typecheck, 30/30 unit tests and production build passed; `npm run verify` remains blocked by 8 pre-existing format warnings. |
 | 2026-11-19 | T1.6 Design-system gallery | Added `/design-system` with color/type/radius/motion tokens and component states, `noindex`, and a Vercel production gate through the shared env helper. Lint/typecheck, 30/30 unit tests and builds passed; `VERCEL_ENV=preview` returned 200 with `noindex`, one H1, and no overflow at 320/375/1440; `VERCEL_ENV=production` returned 404. `npm run verify` still fails on 8 existing formatting warnings. |
