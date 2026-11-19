@@ -31,7 +31,10 @@ Detection: feature check + `prefers-reduced-motion` + `navigator.hardwareConcurr
 
 ## Performance budgets (measure; adjust only with evidence)
 - LCP element is the H1/CTA (HTML). The 3D chunk loads after first paint (idle callback or intersection).
-- 3D chunk ≤250 KB gzipped (import only what is used from three/drei). Initial route JS excl. 3D ≤130 KB gzipped.
+- **Measured framework floor (2026-11-19, T0.1): 170.4 KB gz / 146.9 KB br of initial JS for `/` with zero application code** (React 19 + Next 16 runtime + Tailwind's 3.9 KB of CSS). The original "≤130 KB gzipped" was impossible before a single component existed and is superseded — see DECISIONS.
+- Provisional budget: initial route JS **excluding** the 3D chunk **≤240 KB gz (≤210 KB br)** for `/`. This is a ceiling to measure against, not an estimate: the real number is fixed at the Phase 3 gate from the built homepage and may only move with the measurement recorded in `STACK_LOCK.md`.
+- 3D chunk ≤250 KB gz (import only what is used from three/drei). If drei pushes past it, drop drei and use raw three.
+- No single dependency may add more than 40 KB gz to the initial route without a decision row.
 - Draw calls ≤30. Triangles ≤100k (full), ≤30k (lite).
 - 60 fps desktop; ≥45 fps on a mid-range phone in lite.
 - Zero layout shift: canvas container has a fixed aspect ratio; poster occupies the same box.

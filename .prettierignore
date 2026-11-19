@@ -1,0 +1,19 @@
+# Generated or third-party — never format
+node_modules/
+.next/
+out/
+build/
+coverage/
+package-lock.json
+next-env.d.ts
+# Owned by the OpenCode harness, which rewrites it on config changes.
+opencode.json
+.screenshots/
+test-results/
+playwright-report/
+
+# Markdown is deliberately not enforced yet. `proseWrap: always` would reflow
+# every doc, and the docs pack is reviewed as prose. Adopt it in a dedicated
+# task card, not as a side effect of a code task.
+*.md
+docs/

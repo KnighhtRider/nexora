@@ -28,16 +28,18 @@
 ## Scripts (package.json)
 `dev`, `build`, `start` · `lint` (`eslint` — `next lint` was removed in Next 16), `typecheck` (`tsc --noEmit`), `format:check` · `test` (Vitest), `test:e2e`, `test:visual`, `test:a11y`
 - `verify` = `format:check` + lint + typecheck + unit tests + production build (before every commit/PR)
-- `verify:full` = `verify` + E2E + a11y + visual
+- `verify:full` = `verify` + E2E + visual. It does **not** re-run `test:a11y`: the axe scan lives inside the E2E suite, so a second pass would rebuild and re-serve the app to run the same test twice. `test:a11y` stays as the focused script for local iteration.
+
+## CI (GitHub Actions, every PR)
+`.github/workflows/ci.yml` → `verify` job (frozen-lockfile install → `npm run verify`) then `e2e` job (`playwright install --with-deps chromium` → `npm run test:e2e` → upload `playwright-report/` + `test-results/`). Both on Ubuntu, Node from `.nvmrc`, npm cache on. Branch protection must require both jobs.
+- Action versions are pinned to a major: `checkout@v7`, `setup-node@v7`, `upload-artifact@v7` (checked against the GitHub release API on 2026-11-19, not copied from memory).
+- **Lighthouse is a stub.** `.lighthouserc.json` holds the budgets above as `warn` assertions and starts the production build on port 3100, but no job runs it: `@lhci/cli` is an unapproved dependency. Wire `lhci autorun` when a task card approves it (Phase 3 gate at the earliest), then flip the assertions from `warn` to `error`.
 
 ## Coverage floors
 Nobody reads a coverage badge, so set floors only where branch logic is real:
 - `src/features/workflow-demo/state/**` — **100 %** branches (the reducer is the product's most testable asset).
 - `src/features/contact/schema.ts` — **100 %** branches.
 - Everything else — no threshold. Do not add coverage theatre to presentational components.
-
-## CI (GitHub Actions, every PR)
-Install (frozen lockfile) → `verify` → Playwright on built app → upload Playwright report + screenshots → Lighthouse CI on preview. Branch protection requires all green.
 
 ## Visual regression specifics
 - **Chromium only.** Screenshot diffing across WebKit/Firefox is a maintenance sink for a marketing site; those browsers get functional E2E, not pixel diffs.

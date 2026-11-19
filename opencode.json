@@ -1,9 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": [
-    "docs/PROJECT_BRIEF.md",
-    "docs/DEFINITION_OF_DONE.md"
-  ],
+  "instructions": ["docs/PROJECT_BRIEF.md", "docs/DEFINITION_OF_DONE.md"],
   "mcp": {
     "context7": {
       "type": "local",

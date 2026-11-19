@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+/*
+ * Phase 0 baseline only. T1.1 replaces this block with the DESIGN_SYSTEM
+ * `@theme` tokens. Until then the site is dark-only on purpose: the design
+ * system specifies `color-scheme: dark` and a half-themed page fails WCAG
+ * contrast for any visitor whose OS prefers light mode.
+ */
+:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
