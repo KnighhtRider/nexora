@@ -15,6 +15,7 @@ SOC 2 · ISO 27001 · GDPR-compliant / "fully compliant" · HIPAA · PCI · "99.
 | C-005 | Industries: "where NEXORA is designed to help …" | ALLOWED | Hypothesis wording only |
 | C-006 | The platform is designed to provide observability of automated steps. | ALLOWED | Design intent |
 | C-007 | Security principles (least privilege, audit logging, human oversight) guide the design. | ALLOWED | No certification implied |
+| C-008 | Potential use cases for NEXORA's proposed modules include document processing, knowledge assistance with source references, workflow automation and operational insights. | ALLOWED | Concept hypotheses only; use exploratory language such as "could" or "may" and make no availability or outcome claims. Homepage copy and this claim approved by the human on 2026-11-19. |
 | C-010 | Any statistic in articles | NEEDS PROOF | Cite a real source or remove |
 | C-011 | Response time to demo requests | NEEDS PROOF | Only if the business will honour it |
 | C-012 | Any named integration (e.g. SAP, Salesforce) | NEEDS PROOF | Do not imply support |

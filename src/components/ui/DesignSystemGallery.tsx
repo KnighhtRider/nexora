@@ -213,7 +213,7 @@ export function DesignSystemGallery() {
               lead="The reusable header pairs a small label with a direct headline and supporting copy."
             />
             <div className="space-y-3 border-t border-line pt-5">
-              <p className="font-mono text-label text-fg-faint uppercase">Container sizes</p>
+              <p className="font-mono text-label text-fg-muted uppercase">Container sizes</p>
               <Container
                 size="content"
                 className="rounded-sm border border-line-strong bg-elevated py-3"

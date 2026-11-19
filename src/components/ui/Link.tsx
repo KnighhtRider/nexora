@@ -17,7 +17,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   ) => {
     const classes = cn(
       variant === "inline"
-        ? "text-brand underline-offset-4 hover:underline"
+        ? "text-cyan underline-offset-4 hover:underline"
         : "text-fg-muted transition-colors duration-base hover:text-fg",
       active && "text-fg",
       className,

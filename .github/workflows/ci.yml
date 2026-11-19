@@ -4,6 +4,13 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+    inputs:
+      update_visual_baselines:
+        description: Generate initial Chromium visual baselines for review
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -44,7 +51,18 @@ jobs:
       - run: npm ci
       # --with-deps installs the Ubuntu shared libraries the browser needs.
       - run: npx playwright install --with-deps chromium
+      - name: Generate visual baselines for review
+        if: ${{ inputs.update_visual_baselines == true }}
+        run: npm run test:visual -- --update-snapshots
       - run: npm run test:e2e
+      - name: Upload generated visual baselines
+        uses: actions/upload-artifact@v7
+        if: ${{ always() && inputs.update_visual_baselines == true }}
+        with:
+          name: visual-baselines
+          path: tests/e2e/design-system.visual.spec.ts-snapshots/
+          if-no-files-found: ignore
+          retention-days: 7
       - uses: actions/upload-artifact@v7
         if: always()
         with:

@@ -45,6 +45,7 @@ Nobody reads a coverage badge, so set floors only where branch logic is real:
 - **Chromium only.** Screenshot diffing across WebKit/Firefox is a maintenance sink for a marketing site; those browsers get functional E2E, not pixel diffs.
 - **Baselines are generated in CI (Ubuntu), never on a developer machine.** Windows and Linux rasterise fonts differently, so a baseline committed from Windows will fail forever in CI.
 - Diffing is viewport-based (375/768/1280/1440/1920) using `animations: 'disabled'`; the canvas is masked or the static tier is forced.
+- **Initial baseline bootstrap:** on GitHub Actions, run the `CI` workflow on `main` with `update_visual_baselines` enabled. Review the `visual-baselines` artifact, add its PNGs under `tests/e2e/design-system.visual.spec.ts-snapshots/`, then push and confirm a normal CI run passes with snapshot updates disabled.
 
 ## Device/browser matrix
 Chromium, Firefox, WebKit; widths 375/768/1024/1440/1920; one emulated low-end mobile profile; manual pass on real iPhone and Android before launch.

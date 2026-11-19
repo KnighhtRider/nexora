@@ -11,7 +11,7 @@ export interface SectionHeaderProps extends React.HTMLAttributes<HTMLDivElement>
 export const SectionHeader = React.forwardRef<HTMLDivElement, SectionHeaderProps>(
   ({ className, eyebrow, title, lead, ...props }, ref) => (
     <div ref={ref} className={cn("space-y-4", className)} {...props}>
-      {eyebrow ? <p className="font-mono text-label text-fg-faint uppercase">{eyebrow}</p> : null}
+      {eyebrow ? <p className="font-mono text-label text-fg-muted uppercase">{eyebrow}</p> : null}
       <h2 className="text-h2 text-fg">{title}</h2>
       {lead ? <p className="text-lead text-fg-muted">{lead}</p> : null}
     </div>

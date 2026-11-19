@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const PORT = 3100;
+const PORT = process.env.NEXORA_PLAYWRIGHT_PORT ?? "3100";
 const BASE_URL = `http://127.0.0.1:${PORT}`;
 
 export default defineConfig({
