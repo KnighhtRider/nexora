@@ -3,15 +3,16 @@
 Overwrite the "Current state" block at the end of every session. Keep history short (last 5 sessions).
 
 ## Current state
-- **Phase:** 1 (in progress — T1.7b visual spec implemented; Ubuntu baselines pending)
-- **Last completed task:** T1.7a Root title template with tagline suffix, dark color scheme, and theme-color metadata. T1.7b defines five responsive screenshot cases.
-- **Branch:** `main` — working tree has uncommitted T1.1–T1.7b changes
-- **Last `npm run verify` result:** **exit 0** — formatting, lint, typecheck, 30/30 unit tests, and production build passed after cleanup. Removed `.playwright-mcp` local captures (8 review PNGs, 2 console logs, 2 page capture YAML files). The visual spec lists all five cases; screenshot baselines must be generated on Ubuntu CI, not this Windows machine.
-- **Last `npm run test:e2e` result:** Not completed; Playwright exited 1 because port 3100 is already occupied. Chromium checks were run on port 3187; mobile dialog keyboard behavior passed and 375/1440 screenshots were reviewed.
+- **Phase:** Phase 2 implementation is complete pending human approval; Phase 1 visual baselines and gallery approval remain deferred.
+- **Last completed task:** T2.7 content scaffolding is complete: approved homepage copy is typed in `src/content/home.ts`, MDX frontmatter is validated, and reading-time estimation is tested. Phase 2 approval/tag remains pending.
+- **Branch:** `phase-2/platform-copy` — worktree contains uncommitted Phase 1 follow-up and Phase 2 content changes
+- **Last `npm run verify` result:** **exit 0** — formatting, lint, typecheck, 30/30 unit tests, and production build passed. Local Playwright failure artifacts were removed. Visual baselines must be generated on Ubuntu CI, not this Windows machine.
+- **Last `npm run test:a11y` result:** **3/3 passed** on port 3187: homepage axe, gallery/shell axe, and 320px horizontal overflow.
+- **Last `npm run test:e2e` result:** Full suite not completed; port 3100 is occupied. The focused accessibility suite passed using the configurable `NEXORA_PLAYWRIGHT_PORT` override; the previous mobile dialog keyboard check passed on Chromium.
 - **Preview URL:** https://nexora-tau-gray.vercel.app/ (stale; reflects Phase 0)
 
 ## Next task
-T1.7b follow-up — after the user pushes, obtain the five Playwright screenshot baselines from Ubuntu CI and commit them, then run `npm run test:visual`. Human review and approval of the gallery screenshots at 375 and 1440, the remaining Phase 1 exit checks, and the `phase-1-approved` tag are still required before Phase 2.
+Human: review and approve the Phase 2 exit gate before creating `phase-2-approved`. Phase 3 also requires Phase 1 approval: run the CI workflow on `main` with `update_visual_baselines`, review the 375/1440 gallery preview and baselines, then approve/tag Phase 1. Article author assignments, qualified review of legal drafts, and page-copy approval before Phase 6 remain pending.
 
 ## Known issues
 - **CI has never run.** The first push/PR is the real test of `.github/workflows/ci.yml`. Expect the first failure, if any, to be environment-specific (e.g. Chrome sandbox flags or the `node-version-file` manifest lookup), not logic.
@@ -25,13 +26,24 @@ T1.7b follow-up — after the user pushes, obtain the five Playwright screenshot
 - The static AI Core poster still has no owner or generation procedure (T4.4b).
 
 ## Decisions pending from the human
-Business inputs only: email/CRM provider, analytics at launch, domain + trademark check, the 5–8 reference sites for DESIGN_SYSTEM §9, and authors for the three launch articles and the legal pages. Plus: approve the first push so Ubuntu CI can generate visual baselines.
+Business inputs only: choose a future email/CRM provider, confirm a production domain and NEXORA trademark status, provide the 5–8 reference sites for DESIGN_SYSTEM §9, assign article authors, and supply legal entity/jurisdiction/data-retention details. Analytics remain off at launch; form delivery remains disabled by default. Phase 1 follow-up: run the Ubuntu baseline workflow later and review the gallery screenshots.
 
 ## History
 | Date | Task | Result |
 |---|---|---|
+| 2026-11-19 | T2.7a Home content module | Added `src/content/home.ts` mirroring the approved homepage deck and wired the root scaffold to its approved eyebrow and H1. MDX schema and reading-time support are split into T2.7b. |
+| 2026-11-19 | T2.7 Content scaffolding | Added typed homepage content, wired the root H1/eyebrow to the module, added Zod MDX frontmatter validation and reading-time estimation. `npm run verify` passed with 36/36 tests and production build. Phase 2 human approval/tag remains pending. |
+| 2026-11-19 | T2.6 Decision status | Recorded the human direction to keep form delivery at `none`, confirmed no analytics at launch, and explicitly marked domain/trademark status pending. No provider, domain or trademark clearance was invented. |
+| 2026-11-19 | T2.5 Legal drafts | Added placeholder-based privacy, terms and cookies drafts. No repository legal templates were present. Used current project facts and official ICO/EUR-Lex references as non-applicability-specific drafting aids; jurisdiction, data flow and qualified review remain pending. |
+| 2026-11-19 | T2.4 Article outlines | Drafted outlines for the three proposed resources, including audience/angle, sections, claim IDs and editorial guardrails. No statistics or author names were invented; author assignment remains a human input. |
+| 2026-11-19 | T2.3c Remaining page drafts | Drafted industries, technology, about, contact and request-demo entries. Used hypothesis/design-intent language, mapped claims, marked contact and demo delivery details pending, and avoided response-time promises. Word limits and Lucide icon exports checked. Human review is pending before Phase 6. |
+| 2026-11-19 | T2.3b Solutions page draft | Drafted the four blueprint use cases as hypotheses with problem questions, proposed-module approaches and human control points. Mapped copy to C-002, C-003, C-004 and C-008; word limits and diff whitespace check pass. Human review remains pending before Phase 6. |
+| 2026-11-19 | T2.3a Platform page draft | Added an overview and draft copy for Agents, Flow and Intelligence, with conceptual examples and claim IDs. The human-approved homepage deck and C-008 mapping remain the basis; platform copy awaits review before Phase 6. |
+| 2026-11-19 | T2.1/T2.2 Homepage copy and claims | Human approved the revised homepage draft and its claims mapping. Added C-008 for proposed-module use-case hypotheses and kept the problem section as exploratory questions. |
 | 2026-11-19 | Repository cleanup and formatting | Removed `.playwright-mcp` local review captures: 8 PNGs, 2 console logs, and 2 page capture YAML files. Verified no remaining console logs or image artifacts in the repository scan. Formatted the six T1.3 UI files; `npm run verify` exit 0 (30/30 unit tests and production build included). No push performed. |
-| 2026-11-19 | T1.7b Visual spec | Added five `@visual` full-page gallery-and-shell cases at 375/768/1280/1440/1920px with animations disabled. Playwright lists all five; lint/typecheck pass. Baseline screenshots were not generated locally because `docs/TESTING.md` requires Ubuntu CI. Full verify remains blocked by existing formatting warnings. |
+| 2026-11-19 | Visual baseline bootstrap | Added a manual Ubuntu CI option to generate and upload initial Playwright baselines. `npm run verify` exit 0; `git diff --check` clean. Baselines and human visual approval remain pending. |
+| 2026-11-19 | Phase 1 accessibility follow-up | Added gallery axe and 320px overflow checks; fixed low-contrast gallery link/labels and allowed a per-run Playwright port override. `npm run test:a11y` passed 3/3 on port 3187; `npm run verify` exit 0. |
+| 2026-11-19 | T1.7b Visual spec | Added five `@visual` full-page gallery-and-shell cases at 375/768/1280/1440/1920px with animations disabled. Playwright lists all five; lint/typecheck pass. Baseline screenshots were not generated locally because `docs/TESTING.md` requires Ubuntu CI. Formatting warnings noted then were resolved by the later repository cleanup. |
 | 2026-11-19 | T1.7a Global metadata | Added tagline title template, dark viewport color-scheme and page theme-color via Next.js 16 `viewport` export. Browser confirmed homepage and gallery titles plus viewport metadata. Lint/typecheck, 30/30 unit tests and production build passed; `npm run verify` remains blocked by 8 pre-existing format warnings. |
 | 2026-11-19 | T1.6 Design-system gallery | Added `/design-system` with color/type/radius/motion tokens and component states, `noindex`, and a Vercel production gate through the shared env helper. Lint/typecheck, 30/30 unit tests and builds passed; `VERCEL_ENV=preview` returned 200 with `noindex`, one H1, and no overflow at 320/375/1440; `VERCEL_ENV=production` returned 404. `npm run verify` still fails on 8 existing formatting warnings. |
 | 2026-11-19 | T1.5c Footer | Added a responsive semantic footer with the configured brand lock-up and Product/Company/Legal links; About appears once under Company. Added one component test. Lint/typecheck, 29/29 unit tests and build passed; screenshots reviewed at 375/1440. `npm run verify` remains blocked by 8 pre-existing format warnings. |

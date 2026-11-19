@@ -32,3 +32,34 @@ test("@a11y home has no serious or critical axe violations", async ({ page }) =>
     ),
   ).toEqual([]);
 });
+
+test("@a11y design-system gallery and shell have no serious or critical axe violations", async ({
+  page,
+}) => {
+  await page.goto("/design-system");
+
+  const results = await new AxeBuilder({ page }).analyze();
+  const blocking = results.violations.filter(
+    (violation) => violation.impact === "serious" || violation.impact === "critical",
+  );
+
+  expect(
+    blocking.map(
+      (violation) =>
+        `${violation.id} (${violation.impact}): ${violation.help} → ${violation.nodes
+          .map((node) => node.target.join(" "))
+          .join(", ")}`,
+    ),
+  ).toEqual([]);
+});
+
+test("@a11y design-system gallery has no horizontal overflow at 320px", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.goto("/design-system");
+
+  const hasHorizontalOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth > window.innerWidth,
+  );
+
+  expect(hasHorizontalOverflow).toBe(false);
+});
