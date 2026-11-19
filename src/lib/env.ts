@@ -28,6 +28,11 @@ const serverEnvSchema = z.object({
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
 
+/** The internal design gallery is available on local and Vercel preview builds only. */
+export function isProductionVercel(): boolean {
+  return process.env.VERCEL_ENV === "production";
+}
+
 /**
  * Validated environment. Throws on malformed values — that is a deployment bug
  * and should be loud. A missing provider is *not* malformed; see

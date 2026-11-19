@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { getContactDelivery, getServerEnv, type ContactDelivery } from "./env";
+import { getContactDelivery, getServerEnv, isProductionVercel, type ContactDelivery } from "./env";
 
 /** Narrows to the unconfigured branch so the reason string can be asserted. */
 function unconfiguredReason(delivery: ContactDelivery): string {
@@ -15,6 +15,7 @@ const KEYS = [
   "RESEND_API_KEY",
   "CONTACT_TO_EMAIL",
   "CONTACT_FROM_EMAIL",
+  "VERCEL_ENV",
 ] as const;
 
 type Key = (typeof KEYS)[number];
@@ -61,6 +62,16 @@ describe("getServerEnv", () => {
   it("throws on an unknown provider value", () => {
     process.env.CONTACT_PROVIDER = "sendgrid";
     expect(() => getServerEnv()).toThrow();
+  });
+});
+
+describe("isProductionVercel", () => {
+  it("matches only the production Vercel environment", () => {
+    process.env.VERCEL_ENV = "production";
+    expect(isProductionVercel()).toBe(true);
+
+    process.env.VERCEL_ENV = "preview";
+    expect(isProductionVercel()).toBe(false);
   });
 });
 

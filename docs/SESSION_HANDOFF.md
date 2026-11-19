@@ -3,16 +3,15 @@
 Overwrite the "Current state" block at the end of every session. Keep history short (last 5 sessions).
 
 ## Current state
-- **Phase:** 0 (in progress — 5 of 7 tasks done)
-- **Last completed task:** T0.5 Stack lock — `docs/STACK_LOCK.md` verified against the real lockfile: 21 direct packages, all listed; `@testing-library/dom` added as an auto-installed peer; baseline JS re-measured (unchanged at 170.4 gz / 146.9 br)
-- **Branch:** `main` — one commit (`Doc prep`, upstream `origin/master`); T0.1–T0.5 work is **uncommitted**
-- **Last `npm run verify` result:** **exit 0** — format:check, lint, typecheck, 10/10 unit tests, production build
-- **Last `npm run verify:full` result:** **exit 0** — adds `test:e2e` 2/2 and `test:visual` (no `@visual` tests yet)
-- **CI:** workflow written and Prettier-valid, **never executed**. Nothing has been pushed, so there is no run to point at.
-- **Preview URL:** none
+- **Phase:** 1 (in progress — T1.7b visual spec implemented; Ubuntu baselines pending)
+- **Last completed task:** T1.7a Root title template with tagline suffix, dark color scheme, and theme-color metadata. T1.7b defines five responsive screenshot cases.
+- **Branch:** `main` — working tree has uncommitted T1.1–T1.7b changes
+- **Last `npm run verify` result:** **not rerun after cleanup**. `npm run format:check` exits 1 on six existing T1.3 UI files (`Badge.tsx`, `Button.tsx`, `Container.tsx`, `layout.test.tsx`, `Link.tsx`, `SectionHeader.tsx`). Removed `.playwright-mcp` local captures (8 review PNGs, 2 console logs, 2 page capture YAML files). Lint and typecheck previously passed. The visual spec lists all five cases; screenshot baselines must be generated on Ubuntu CI, not this Windows machine.
+- **Last `npm run test:e2e` result:** Not completed; Playwright exited 1 because port 3100 is already occupied. Chromium checks were run on port 3187; mobile dialog keyboard behavior passed and 375/1440 screenshots were reviewed.
+- **Preview URL:** https://nexora-tau-gray.vercel.app/ (stale; reflects Phase 0)
 
 ## Next task
-T0.6 — Agent OS: confirm `AGENTS.md` + `opencode.json` are complete, that Context7 and Playwright MCP load in opencode, and that a fresh session can quote the non-negotiables. T0.7 (push, Vercel, branch protection) is the human's; it is also what finally exercises CI.
+T1.7b follow-up — obtain the five Playwright screenshot baselines from an Ubuntu CI run and commit them, then run `npm run test:visual`. Resolve the six formatting warnings before the Phase 1 verify gate.
 
 ## Known issues
 - **CI has never run.** The first push/PR is the real test of `.github/workflows/ci.yml`. Expect the first failure, if any, to be environment-specific (e.g. Chrome sandbox flags or the `node-version-file` manifest lookup), not logic.
@@ -26,12 +25,27 @@ T0.6 — Agent OS: confirm `AGENTS.md` + `opencode.json` are complete, that Cont
 - The static AI Core poster still has no owner or generation procedure (T4.4b).
 
 ## Decisions pending from the human
-Business inputs only: email/CRM provider, analytics at launch, domain + trademark check, the 5–8 reference sites for DESIGN_SYSTEM §9, and authors for the three launch articles and the legal pages. Plus: approve pushing T0.1–T0.4 so CI can run.
+Business inputs only: email/CRM provider, analytics at launch, domain + trademark check, the 5–8 reference sites for DESIGN_SYSTEM §9, and authors for the three launch articles and the legal pages. Plus: approve the first push so Ubuntu CI can generate visual baselines.
 
 ## History
 | Date | Task | Result |
 |---|---|---|
+| 2026-11-19 | Repository cleanup | Removed `.playwright-mcp` local review captures: 8 PNGs, 2 console logs, and 2 page capture YAML files. Verified no remaining console logs or image artifacts in the repository scan. `npm run format:check` still exits 1 on six T1.3 UI files. No push performed. |
+| 2026-11-19 | T1.7b Visual spec | Added five `@visual` full-page gallery-and-shell cases at 375/768/1280/1440/1920px with animations disabled. Playwright lists all five; lint/typecheck pass. Baseline screenshots were not generated locally because `docs/TESTING.md` requires Ubuntu CI. Full verify remains blocked by existing formatting warnings. |
+| 2026-11-19 | T1.7a Global metadata | Added tagline title template, dark viewport color-scheme and page theme-color via Next.js 16 `viewport` export. Browser confirmed homepage and gallery titles plus viewport metadata. Lint/typecheck, 30/30 unit tests and production build passed; `npm run verify` remains blocked by 8 pre-existing format warnings. |
+| 2026-11-19 | T1.6 Design-system gallery | Added `/design-system` with color/type/radius/motion tokens and component states, `noindex`, and a Vercel production gate through the shared env helper. Lint/typecheck, 30/30 unit tests and builds passed; `VERCEL_ENV=preview` returned 200 with `noindex`, one H1, and no overflow at 320/375/1440; `VERCEL_ENV=production` returned 404. `npm run verify` still fails on 8 existing formatting warnings. |
+| 2026-11-19 | T1.5c Footer | Added a responsive semantic footer with the configured brand lock-up and Product/Company/Legal links; About appears once under Company. Added one component test. Lint/typecheck, 29/29 unit tests and build passed; screenshots reviewed at 375/1440. `npm run verify` remains blocked by 8 pre-existing format warnings. |
+| 2026-11-19 | T1.5b Mobile navigation dialog | Added native full-screen dialog, explicit Tab wrapping, Escape close, body scroll lock, focus restoration and persistent demo CTA; added 2 component tests. Lint/typecheck, 28/28 unit tests and build passed; browser keyboard check passed at 375px. `npm run verify` still stops at 8 existing formatting warnings; Playwright's configured port 3100 remains occupied. |
+| 2026-11-19 | T1.5a Site config + static header + skip link | Added shared footer groups and approved “designed to” metadata wording; verified responsive screenshots at 375/1440. Lint, typecheck, 26/26 unit tests and build passed individually. `npm run verify` stops at Prettier for 8 existing files/artifacts; mobile menu and footer remain T1.5b/c. |
 | 2026-11-19 | T0.5 Stack lock | Re-ran `node -v` (26.13.0), `npm -v` (11.20.0), `npm ls --depth=0` (21 direct packages) and diffed against the table: no drift, nothing missing, nothing extra. Added `@testing-library/dom@10.4.2` (auto-installed peer, absent from `package.json`), a legend for the `— not installed` rows, the verify/CI surface, and the real OS (`Windows 10 Pro 10.0.19045`, not "Windows 11"). Re-measured the baseline: 170.4 KB gz / 146.9 KB br, identical after the dark-only CSS change. |
+| 2026-11-19 | T0.6 Agent OS | Confirmed `opencode.json` parses; `opencode mcp list` reports context7 and playwright both connected; `opencode run` fresh session quoted all 7 non-negotiables from `AGENTS.md` verbatim. No code or dependency changes. |
+| 2026-11-19 | T0.7 Deploy | Vercel preview live at https://nexora-tau-gray.vercel.app/. Branch protection and CI execution remain human actions. |
+| 2026-11-19 | T1.1 Tokens and global styles | Replaced `globals.css` Phase 0 baseline with the DESIGN_SYSTEM §1 `@theme` block (surfaces, text, lines, brand, status, radii, motion, type scale) plus duration/max-width utilities, base body styles, `:focus-visible` ring and reduced-motion rules. Migrated `page.tsx` from `neutral-*` / arbitrary tracking to tokens (`text-fg`, `text-fg-faint`, `text-display-xl`, `text-label`, `max-w-content`). `npm run verify` exit 0; `test:e2e` 2/2. |
+| 2026-11-19 | T1.2 Fonts | Added `display: "swap"` to `Geist` / `Geist_Mono` in `layout.tsx`; mapped `--font-sans` and `--font-mono` through an `@theme inline` block in `globals.css`. `npm run verify` exit 0; `test:e2e` 2/2. |
+| 2026-11-19 | T1.3a Button | Added `src/lib/utils.ts` (`cn`) and `src/components/ui/Button.tsx` (primary/secondary/ghost/link, md/lg, leading/trailing icons, loading spinner) with 4 component tests. Installed approved helpers clsx@2.1.1, tailwind-merge@3.7.0, class-variance-authority@0.7.1, lucide-react@1.76.0; updated STACK_LOCK. `npm run verify` exit 0; `test:e2e` 2/2. |
+| 2026-11-19 | T1.3b Link, Card, Badge | Added `Link.tsx` (internal/external, inline/nav, active), `Card.tsx` (surface + hover border), `Badge.tsx` (default/concept/in-design) with 5 component tests. `npm run verify` exit 0; `test:e2e` 2/2. |
+| 2026-11-19 | T1.3c Section header + Container | Added `SectionHeader.tsx` (eyebrow/title/lead) and `Container.tsx` (content/reading/article widths with responsive gutters) with 4 component tests. `npm run verify` exit 0; `test:e2e` 2/2. |
+| 2026-11-19 | T1.4 Form primitives | Added `Input`, `Textarea`, `Select`, `Checkbox` with labels, helper/error text, `aria-describedby`, `line-strong` borders and 44px targets; 4 component tests. `npm run verify` exit 0; `test:e2e` 2/2. |
 | 2026-11-19 | T0.4 Scripts and CI | `verify` = format:check → lint → typecheck → test → build; `verify:full` = verify → e2e → visual (a11y is inside the e2e suite, so it is not rebuilt twice). Both run locally: exit 0, `verify:full` 4/4 Playwright tests. `.github/workflows/ci.yml`: Ubuntu, `.nvmrc` node, npm cache, `verify` job then `e2e` job with `--with-deps chromium` and report artifacts on `always()`. Action majors checked against the GitHub release API. `.lighthouserc.json` stub with `warn` budgets; no job runs it. |
 | 2026-11-19 | T0.3 Test tooling | Vitest 5.1.1 + jsdom 31 + RTL 16.3.3 (`vitest.config.mts`), Playwright 1.65.1 + `@axe-core/playwright` 4.14.0 (production build on port 3100, console/network guard fixture). `@types/node` raised `^20` → `^26` because Vitest 5 rejects the scaffold's stale types. First axe run **failed** on real contrast (H1 + label were `text-neutral-50` on a white background for light-mode visitors) — fixed by making the baseline dark-only per DESIGN_SYSTEM. Also fixed a false negative: `reuseExistingServer` was serving a stale build, now always false. `test` 10/10, `test:e2e` 2/2, `test:a11y` 1/1. |
 | 2026-11-19 | T0.2 Code quality | `.nvmrc` (26.13.0) + `engines` (node ≥22, npm ≥10); `noUncheckedIndexedAccess` on; ESLint gained `no-explicit-any` (error), `no-non-null-assertion` (warn), `no-console` (allow warn/error), `eqeqeq`; Prettier 3.10 with `prettier-plugin-tailwindcss` bound to `globals.css`; husky + lint-staged pre-commit; `.env.example` + `!.env.example`; `src/lib/env.ts` parses lazily so `next build` needs no secrets. Verified a staged `: any` is rejected (exit 1) and the file reverted. |

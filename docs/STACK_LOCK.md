@@ -23,8 +23,8 @@ Rows marked `— not installed` are **approved by a later task card but delibera
 | gsap | — not installed | Scroll story | T4.x | |
 | @gsap/react | — not installed | useGSAP cleanup | T4.x | |
 | motion | — not installed | Component transitions | T1.x | |
-| lucide-react | — not installed | Icons | T1.x | |
-| clsx, tailwind-merge, class-variance-authority | — not installed | UI primitives | T1.x | |
+| lucide-react | 1.76.0 | Icons | T1.3 | 2026-11-19 |
+| clsx, tailwind-merge, class-variance-authority | 2.1.1 / 3.7.0 / 0.7.1 | UI primitives | T1.3 | 2026-11-19 |
 | react-hook-form, @hookform/resolvers | — not installed | Forms (zod is already installed) | T6.x | |
 | @next/mdx, gray-matter, @tailwindcss/typography | — not installed | Articles | T6.x | |
 | vitest, jsdom, @testing-library/react | 5.1.1 / 31.0.1 / 16.3.3 | Unit / component tests | T0.3 | 2026-11-19 |
